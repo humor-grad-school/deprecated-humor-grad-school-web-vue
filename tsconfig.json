@@ -2,13 +2,22 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "strict": true,
+    "strict": false,
+    "alwaysStrict": false,
+    "noImplicitUseStrict": true,
     "jsx": "preserve",
     "importHelpers": true,
+    "emitDecoratorMetadata": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "types": [
       "webpack-env",
@@ -29,9 +38,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "src/**/*.vue"
   ],
   "exclude": [
     "node_modules"

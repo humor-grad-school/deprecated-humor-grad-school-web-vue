@@ -1,19 +1,30 @@
 {
-  "defaultSeverity": "warning",
-  "extends": [
-    "tslint:recommended"
-  ],
-  "linterOptions": {
-    "exclude": [
-      "node_modules/**"
-    ]
-  },
-  "rules": {
-    "quotemark": [true, "single"],
-    "indent": [true, "spaces", 2],
-    "interface-name": false,
-    "ordered-imports": false,
-    "object-literal-sort-keys": false,
-    "no-consecutive-blank-lines": false
-  }
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "linterOptions": {
+        "exclude": [
+            "node_modules/**"
+        ]
+    },
+    "rules": {
+        "quotemark": [true, "single"],
+        "indent": [true, "spaces", 4],
+        "interface-name": false,
+        "ordered-imports": false,
+        "object-literal-sort-keys": false,
+        "no-consecutive-blank-lines": true,
+        "trailing-comma": false,
+        "no-console": [true, "log"],
+        "semicolon": true,
+        "no-trailing-whitespace": false,
+        "space-before-function-paren": false,
+        "max-classes-per-file": false,
+        "member-access": false,
+        "no-empty": [true, "allow-empty-functions"],
+        "eofline": false,
+        "object-literal-key-quotes": false,
+        "no-empty-interface": false
+    }
 }
