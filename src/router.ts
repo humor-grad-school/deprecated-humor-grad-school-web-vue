@@ -1,23 +1,40 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+import Home from './views/pages/home.vue';
 
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
-    },
-  ],
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: Home
+        },
+        {
+            path: '/account',
+            name: 'account',
+            component: () => import(/* webpackChunkName: "account" */ './views/pages/account.vue')
+        },
+        {
+            path: '/board/:boardName',
+            name: 'board',
+            component: () => import(/* webpackChunkName: "board" */ './views/pages/board.vue')
+        },
+        {
+            path: '/editor',
+            name: 'editor',
+            component: () => import(/* webpackChunkName: "editor" */ './views/pages/editor.vue')
+        },
+        {
+            path: '/post',
+            name: 'post',
+            component: () => import(/* webpackChunkName: "post" */ './views/pages/post.vue')
+        },
+        {
+            path: '/profile',
+            name: 'profile',
+            component: () => import(/* webpackChunkName: "profile" */ './views/pages/profile.vue')
+        },
+    ]
 });
