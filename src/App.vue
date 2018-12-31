@@ -27,9 +27,13 @@ export default Vue.extend({
   -moz-osx-font-smoothing: grayscale;
   background-color: #fff;
 }
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
 .wrap {
     margin: 0 auto;
-    padding-top: 50px;
+    padding-top: 80px;
     width: 100%;
     max-width: 1080px;
 }
