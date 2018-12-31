@@ -2,7 +2,6 @@
     <div id="app">
         <toolbar></toolbar>
         <div class="wrap">
-            <router-view name="sideMenu"></router-view>
             <router-view/>
         </div>
         <snackbar></snackbar>
@@ -11,7 +10,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Toolbar from '@/views/common/toolbar.vue';
+import Toolbar from '@/views/common/toolbar/toolbar.vue';
 import Snackbar from '@/views/common/snackbar.vue';
 
 export default Vue.extend({
