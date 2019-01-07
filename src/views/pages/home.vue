@@ -1,7 +1,11 @@
 <template>
     <div class="home">
-        <board-preview title="웃긴자료"></board-preview>
-        <board-preview title="대기자료"></board-preview>
+        <div class="board-preview-wrap">
+            <board-preview type="humor"></board-preview>
+        </div>
+        <div class="board-preview-wrap">
+            <board-preview type="standby"></board-preview>
+        </div>
     </div>
 </template>
 
@@ -16,7 +20,10 @@ export default Vue.extend({
 </script>
 
 <style>
-.board-preview {
+.board-preview-wrap {
+    float: left;
     width: 50%;
+    padding: 0 4px;
+    box-sizing: border-box;
 }
 </style>

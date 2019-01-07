@@ -1,12 +1,12 @@
 <template>
     <div class="board-preview">
-        <preview-frame>
+        <preview-frame :color="color">
             <h3 slot="header">
-                <i v-if="icon" class="material-icons md-36">{{ icon }}</i>
-                {{ title }}
+                <i v-if="icon" class="material-icons md-16">{{ icon }}</i>
+                <router-link :to="link" class="title">{{ title }}</router-link>
             </h3>
-            <div v-if="loading">
-                loading...
+            <div class="loading" v-if="loading">
+                <spinner />
             </div>
             <ul v-else>
                 <li v-for="item in items" :key="item">
@@ -19,21 +19,19 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import Spinner from '@/views/common/spinner.vue';
 import PreviewFrame from './preview-frame.vue';
+import BoardMapper, { BoardData } from '@/modules/board-mapper.ts';
 
 export default Vue.extend({
-    components: { PreviewFrame },
+    components: { Spinner, PreviewFrame },
     props: {
-        icon: String,
-        title: {
-            type: String,
-            default: 'Untitled'
-        }
+        type: String
     },
     data() {
         return {
             loading: true,
-            items: ['test 1', 'test 2', 'test 3']
+            items: ['test 1', 'test 2', 'test 3', 'test 4', 'test 5', 'test 6', 'test 7', 'test 8', 'test 9']
         };
     },
     beforeMount() {
@@ -42,12 +40,37 @@ export default Vue.extend({
             this.loading = false;
         }, 1000);
     },
-    computed: {}
+    computed: {
+        boardData(): BoardData {
+            return BoardMapper.getBoard(this.type);
+        },
+        icon(): string {
+            return this.boardData.icon;
+        },
+        title(): string {
+            return this.boardData.title;
+        },
+        link(): string {
+            return this.boardData.link;
+        },
+        color(): string {
+            return this.boardData.color;
+        }
+    }
 });
 </script>
 
 <style scoped>
-.board-preview {
-    float: left;
+.loading {
+    text-align: center;
+    height: 300px;
+    line-height: 350px;
+}
+.title {
+    color: #ffffff;
+    padding-left: 6px;
+    position: relative;
+    top: -2px;
+    text-decoration: none;
 }
 </style>

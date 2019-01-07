@@ -29,6 +29,7 @@ export default Vue.extend({
   -moz-osx-font-smoothing: grayscale;
   background-color: #fff;
 }
+.material-icons.md-16 { font-size: 16px; }
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }
