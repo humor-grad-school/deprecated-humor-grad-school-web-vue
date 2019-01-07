@@ -5,6 +5,7 @@
             <router-view/>
         </div>
         <snackbar></snackbar>
+        <modal></modal>
     </div>
 </template>
 
@@ -12,10 +13,11 @@
 import Vue from 'vue';
 import Toolbar from '@/views/common/toolbar/toolbar.vue';
 import Snackbar from '@/views/common/snackbar.vue';
+import Modal from '@/views/common/modal.vue';
 
 export default Vue.extend({
     components: {
-        Toolbar, Snackbar
+        Toolbar, Snackbar, Modal
     }
 });
 </script>
