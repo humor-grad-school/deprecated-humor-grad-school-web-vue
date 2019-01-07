@@ -10,10 +10,6 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-    data() {
-        return {
-            cols: ['이미지', '제목', '작성자', '등록일', '조회수', '추천/반대']
-        };
-    }
+    props: ['cols']
 });
 </script>

@@ -18,6 +18,10 @@ export default new Router({
         },
         {
             path: '/board/:boardName',
+            redirect: '/board/:boardName/0'
+        },
+        {
+            path: '/board/:boardName/:page',
             name: 'board',
             component: () => import(/* webpackChunkName: "board" */ './views/pages/board.vue')
         },

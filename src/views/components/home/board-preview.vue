@@ -21,7 +21,7 @@
 import Vue from 'vue';
 import Spinner from '@/views/common/spinner.vue';
 import PreviewFrame from './preview-frame.vue';
-import BoardMapper, { BoardData } from '@/modules/board-mapper.ts';
+import boardMapper, { BoardData } from '@/modules/board-mapper.ts';
 
 export default Vue.extend({
     components: { Spinner, PreviewFrame },
@@ -42,7 +42,7 @@ export default Vue.extend({
     },
     computed: {
         boardData(): BoardData {
-            return BoardMapper.getBoard(this.type);
+            return boardMapper.getBoardConfig(this.type);
         },
         icon(): string {
             return this.boardData.icon;

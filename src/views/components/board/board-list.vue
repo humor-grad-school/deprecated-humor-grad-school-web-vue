@@ -1,36 +1,35 @@
 <template>
-    <div class="board-list">
-        <table>
-            
-        </table>
-        <ul>
-            <component v-for="item in items" :key="item.id" :is="item.type"></component>
-        </ul>
-    </div>
+    <tbody class="board-list">
+        <component v-for="item in items" :key="item.id" :is="getBoardItemComponent()"></component>
+    </tbody>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import ImageHeader from './headers/image-header.vue';
-import TextHeader from './headers/text-header.vue';
-import ImageItem from '/items/image-item.vue';
-import TextItem from '/items/text-item.vue';
+import ImageItem from './items/image-item.vue';
+import TextItem from './items/text-item.vue';
 
 export default Vue.extend({
     components: {
-        ImageHeader, TextHeader, // headers
         ImageItem, TextItem // items
     },
-    props: {
-        boardType: {
-            required: true,
-            type: String,
-            default: 'image'
+    computed: {
+        type() {
+            return this.$store.getters['board/type'];
         },
-        items: {
-            required: true,
-            type: Array,
-            default: []
+        items() {
+            return this.$store.getters['board/items'];
+        }
+    },
+    methods: {
+        getBoardItemComponent() {
+            if (this.type === 'image') {
+                return ImageItem;
+            } else if (this.type === 'text') {
+                return TextItem;
+            }
+
+            return null;
         }
     }
 });

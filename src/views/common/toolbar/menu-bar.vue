@@ -44,7 +44,7 @@ export default Vue.extend({
     text-decoration: none;
     color: blue;
 }
-.router-link-exact-active {
+.router-link-active {
     font-weight: 600;
     color: red;
 }

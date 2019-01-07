@@ -1,7 +1,9 @@
 import { BoardState } from './types';
 
 const board: BoardState = {
-    count: 0,
+    totalCount: 0,
+    currentPage: 0,
+    type: '',
     items: []
 };
 
@@ -9,23 +11,37 @@ export default {
     namespaced: true,
     state: board,
     getters: {
-        count(state: BoardState): number {
-            return state.count;
+        totalCount(state: BoardState): number {
+            return state.totalCount;
+        },
+        currentPage(state: BoardState): number {
+            return state.currentPage;
+        },
+        type(state: BoardState): string {
+            return state.type;
         },
         items(state: BoardState) {
             return state.items;
         }
     },
     mutations: {
+        setBoardType(state: BoardState, type) {
+            state.type = type;
+        },
+        setCurrentPage(state: BoardState, page) {
+            state.currentPage = page;
+        },
         setItems(state: BoardState, items) {
             state.items = items;
         }
     },
     actions: {
-        async fetch({ commit }) {
+        async fetch({ commit }, { type, page }) {
+            commit('setBoardType', type);
+            commit('setCurrentPage', page);
+
             const items = [];
-            // const { boardName, index, pageSize } = payload;
-            // const items = await api.fetchBoard(boardName, index, pageSize);
+            // const items = await api.fetchBoard(boardName, index, 20);
             commit('setItems', items);
         }
     }

@@ -1,11 +1,11 @@
 <template>
     <ul class="pagination">
-        <li v-for="(pageNum, i) in maxPages" :key="pageNum">
-            <a href='#'
+        <li v-for="(pageNum, i) in 5" :key="pageNum">
+            <button type="button"
                 :class="{ 'active': currentPage === pageNum - 1 }"
-                @click="$emit('change', i - 1)">
-                {{ i }}
-            </a>
+                @click="$emit('change', i)">
+                {{ pageNum }}
+            </button>
         </li>
     </ul>
 </template>
@@ -14,15 +14,9 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-    props: {
-        currentPage: {
-            required: true,
-            default: 0
-        },
-        maxPages: {
-            required: true,
-            type: Number,
-            default: 1
+    computed: {
+        currentPage(): number {
+            return this.$store.getters['board/currentPage'];
         }
     }
 });

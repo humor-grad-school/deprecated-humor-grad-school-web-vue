@@ -6,9 +6,10 @@
         </div>
     </div>
 </template>
+<script lang="ts">
+import Vue from 'vue';
 
-<script>
-export default {
+export default Vue.extend({
     computed: {
         show() {
             return this.$store.getters['ui/modal/show'];
@@ -22,7 +23,7 @@ export default {
             this.$store.dispatch('ui/modal/hide');
         }
     }
-}
+});
 </script>
 
 <style scoped>
