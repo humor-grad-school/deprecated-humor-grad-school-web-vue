@@ -1,15 +1,18 @@
 <template>
     <div class="auth m-hide">
         <div v-if="isAuthorized">
+            <router-link to="/profile" tag="button">
+                내 ID
+            </router-link>
             <button @click="signOut">
                 로그아웃
             </button>
         </div>
         <div v-else>
-            <router-link to="/account" tag="button">
+            <router-link :to="{ path: '/account', query: { from: $route.path }}" tag="button">
                 로그인
             </router-link> |
-            <router-link to="/account" tag="button">
+            <router-link :to="{ path: '/account', query: { from: $route.path }}" tag="button">
                 가입하기
             </router-link>
         </div>
