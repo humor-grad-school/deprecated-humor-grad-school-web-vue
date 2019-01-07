@@ -2,14 +2,10 @@
     <div class="menu-bar" :class="{ menuOn: isMenuOn }">
         <ul class="menu-list">
             <li>
-                <router-link to="/board/humor">
-                    <div class="menu-item">웃긴 자료</div>
-                </router-link>
+                <router-link to="/board/humor" class="menu-item">웃긴 자료</router-link>
             </li>
             <li>
-                <router-link to="/board/standby">
-                    <div class="menu-item">대기 자료</div>
-                </router-link>
+                <router-link to="/board/standby" class="menu-item">대기 자료</router-link>
             </li>
         </ul>
     </div>
@@ -28,18 +24,23 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.menu {
-    padding-top: 6px;
-    padding-bottom: 6px;
+.menu-bar {
+    background-color: #F2F4F7;
+    height: 40px;
 }
-.menu-title {
-    padding: 6px 12px;
-    font-weight: 600;
+.menu-list {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+.menu-list li {
+    height: 100%;
+    float: left;
+    margin-right: 16px;
 }
 .menu-item {
-    padding: 4px 12px;
+    line-height: 40px;
 }
-.menu a:hover {
+.menu-item:hover {
     text-decoration: none;
     color: blue;
 }

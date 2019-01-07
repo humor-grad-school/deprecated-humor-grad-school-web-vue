@@ -33,7 +33,7 @@ export default Vue.extend({
 .material-icons.md-48 { font-size: 48px; }
 .wrap {
     margin: 0 auto;
-    padding-top: 80px;
+    padding-top: 128px;
     width: 100%;
     max-width: 1080px;
 }

@@ -40,6 +40,8 @@ export default Vue.extend({
 <style scoped>
 .auth {
     float: right;
+    height: 64px;
+    line-height: 64px;
 }
 .auth button {
     height: 50px;

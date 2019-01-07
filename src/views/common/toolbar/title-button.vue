@@ -1,11 +1,11 @@
 <template>
-    <div class="menu-wrap">
+    <div class="title-button">
         <div class="menu-btn m-show">
             <button type="button">
                 <i class="material-icons md-36">menu</i>
             </button>
         </div>
-        <router-link to="/">
+        <router-link to="/" class="title">
             <h1>웃긴대학원</h1>
         </router-link>
     </div>
@@ -20,10 +20,22 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.menu-wrap {
-    margin: 0 auto;
-    max-width: 1080px;
+.title-button {
+    height: 64px;
+    float: left;
 }
+.title {
+    text-decoration: none;
+}
+h1 {
+    margin: 0;
+    letter-spacing: 4px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 64px;
+}
+
 .menu-btn {
     width: 50px;
     height: 100%;
@@ -36,14 +48,6 @@ export default Vue.extend({
 .menu-btn button {
     width: 36px;
     height: 36px;
-}
-h1 {
-    float: left;
-    font-size: 18px;
-    margin: 0;
-    padding-top: 17px;
-    padding-left: 8px;
-    letter-spacing: 3px;
 }
 </style>
 
