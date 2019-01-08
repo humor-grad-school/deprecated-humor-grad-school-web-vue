@@ -1,7 +1,7 @@
 import './assets/css/reset.css';
 
 import Vue from 'vue';
-import App from './app.vue';
+import App from './App.vue';
 import router from './router';
 import store from './stores';
 
