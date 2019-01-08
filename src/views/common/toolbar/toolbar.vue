@@ -1,5 +1,6 @@
 <template>
     <header>
+        <warning-bar/>
         <div class="title-wrap">
             <title-button/>
             <auth-button/>
@@ -10,12 +11,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import WarningBar from './warning-bar.vue';
 import TitleButton from './title-button.vue';
 import AuthButton from './auth-button.vue';
 import MenuBar from './menu-bar.vue';
 
 export default Vue.extend({
-    components: { TitleButton, AuthButton, MenuBar }
+    components: { WarningBar, TitleButton, AuthButton, MenuBar }
 });
 </script>
 

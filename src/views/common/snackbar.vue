@@ -45,7 +45,7 @@ export default Vue.extend({
 <style scoped>
 .snackbar {
     position: fixed;
-    top: 0;
+    top: -20px;
     width: 100vw;
     text-align: center;
     z-index: 9000;
