@@ -1,8 +1,10 @@
 <template>
     <tbody class="board-list">
-        <component v-for="item in items"
+        <component v-for="item in posts"
             :key="item.id"
-            :is="getBoardItemComponent()"></component>
+            :is="getBoardItemComponent()"
+            :post="item">
+        </component>
     </tbody>
 </template>
 
@@ -19,8 +21,8 @@ export default Vue.extend({
         type() {
             return this.$store.getters['board/type'];
         },
-        items() {
-            return this.$store.getters['board/items'];
+        posts() {
+            return this.$store.getters['board/posts'];
         }
     },
     methods: {

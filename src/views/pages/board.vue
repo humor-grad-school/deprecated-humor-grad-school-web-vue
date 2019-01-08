@@ -43,5 +43,6 @@ export default Vue.extend({
 <style scoped>
 table {
     width: 100%;
+    margin-bottom: 40px;
 }
 </style>

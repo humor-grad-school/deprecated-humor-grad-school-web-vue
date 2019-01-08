@@ -81,6 +81,7 @@ export default Vue.extend({
 <style scoped>
 .pagination {
     text-align: center;
+    margin-bottom: 30px;
 }
 .pagination li {
     display: inline-block;

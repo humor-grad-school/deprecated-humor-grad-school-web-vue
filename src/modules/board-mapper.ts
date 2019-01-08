@@ -29,20 +29,20 @@ const boards = {
 
 const headers = {
     image: [
-        { text: '이미지', width: 12 },
+        { text: '이미지', width: 10 },
         { text: '제목', width: 40 },
-        { text: '작성자', width: 20 },
-        { text: '등록일', width: 12 },
-        { text: '조회수', width: 6 },
-        { text: '추천', width: 10 },        
+        { text: '작성자', width: 16 },
+        { text: '등록일', width: 16 },
+        { text: '조회수', width: 9 },
+        { text: '추천', width: 9 },        
     ],
     text: [
         { text: '번호', width: 12 },
         { text: '제목', width: 40 },
         { text: '작성자', width: 20 },
         { text: '등록일', width: 12 },
-        { text: '조회수', width: 6 },
-        { text: '추천', width: 10 },        
+        { text: '조회수', width: 8 },
+        { text: '추천', width: 8 },        
     ]
 };
 

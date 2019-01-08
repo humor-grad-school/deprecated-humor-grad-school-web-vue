@@ -31,7 +31,7 @@ export default new Router({
             component: () => import(/* webpackChunkName: "editor" */ './views/pages/editor.vue')
         },
         {
-            path: '/post',
+            path: '/post/:postId',
             name: 'post',
             component: () => import(/* webpackChunkName: "post" */ './views/pages/post.vue')
         },
