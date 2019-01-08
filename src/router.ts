@@ -18,7 +18,7 @@ export default new Router({
         },
         {
             path: '/board/:boardName',
-            redirect: '/board/:boardName/0'
+            redirect: '/board/:boardName/1'
         },
         {
             path: '/board/:boardName/:page',

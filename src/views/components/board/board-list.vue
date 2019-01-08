@@ -1,6 +1,8 @@
 <template>
     <tbody class="board-list">
-        <component v-for="item in items" :key="item.id" :is="getBoardItemComponent()"></component>
+        <component v-for="item in items"
+            :key="item.id"
+            :is="getBoardItemComponent()"></component>
     </tbody>
 </template>
 
