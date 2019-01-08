@@ -5,6 +5,10 @@ export interface BoardData {
     color: string;
     type: string;
 }
+export interface HeaderData {
+    text: string;
+    width?: number;
+}
 
 const boards = {
     humor: {
@@ -24,15 +28,29 @@ const boards = {
 };
 
 const headers = {
-    image: ['이미지', '제목', '작성자', '등록일', '조회수', '추천/반대'],
-    text: ['번호', '제목', '질문자/답변자', '등록일', '조회수', '추천/반대']
+    image: [
+        { text: '이미지', width: 12 },
+        { text: '제목', width: 40 },
+        { text: '작성자', width: 20 },
+        { text: '등록일', width: 12 },
+        { text: '조회수', width: 6 },
+        { text: '추천', width: 10 },        
+    ],
+    text: [
+        { text: '번호', width: 12 },
+        { text: '제목', width: 40 },
+        { text: '작성자', width: 20 },
+        { text: '등록일', width: 12 },
+        { text: '조회수', width: 6 },
+        { text: '추천', width: 10 },        
+    ]
 };
 
 export default {
     getBoardConfig(boardName: string): BoardData {
         return boards[boardName];
     },
-    getBoardHeader(type: string): string[] {
+    getBoardHeader(type: string): HeaderData[] {
         return headers[type];
     } 
 };

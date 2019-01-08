@@ -41,5 +41,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-
+table {
+    width: 100%;
+}
 </style>
