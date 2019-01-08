@@ -6,7 +6,6 @@
         </div>
         <snackbar></snackbar>
         <modal></modal>
-        <footer-bar></footer-bar>
     </div>
 </template>
 
@@ -38,6 +37,7 @@ export default Vue.extend({
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
 .wrap {
+    position: relative;
     margin: 0 auto;
     padding-top: 128px;
     width: 100%;

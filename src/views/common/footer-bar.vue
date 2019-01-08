@@ -19,6 +19,7 @@ export default Vue.extend({
 <style scoped>
 footer {
     position: absolute;
+    width: 100vw;
     left: 0;
     right: 0;
     bottom: 0;
