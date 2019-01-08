@@ -1,5 +1,6 @@
 <template>
     <tr>
+        <!-- TODO: 각 항목 별로 component화 -->
         <td class="post-thumbnail"
             :style="{ width: cols[0].width + '%' }">
             <router-link :to="'/post/' + post.id"

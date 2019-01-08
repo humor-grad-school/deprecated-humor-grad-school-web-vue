@@ -1,5 +1,6 @@
 <template>
     <div class="board">
+        <announcement></announcement>
         <table>
             <board-header></board-header>
             <board-list></board-list>
@@ -10,13 +11,15 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import Announcement from '@/views/components/board/announcement.vue';
 import BoardHeader from '@/views/components/board/board-header.vue';
 import BoardList from '@/views/components/board/board-list.vue';
 import Pagination from '@/views/components/board/pagination.vue';
 import boardMapper from '@/modules/board-mapper';
 
 export default Vue.extend({
-    components: { BoardHeader, BoardList, Pagination },
+    name: 'board',
+    components: { Announcement, BoardHeader, BoardList, Pagination },
     beforeRouteEnter(to, _from, next) {
         next((vm: any) => {
             vm.fetchData(to);
