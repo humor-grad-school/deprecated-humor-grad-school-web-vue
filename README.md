@@ -1,4 +1,6 @@
-# humor-grad-school-front-end
+# humor-grad-school-web
+
+웃음은 내가 책임진다!
 
 ## Project setup
 ```
