@@ -25,6 +25,7 @@
         "no-empty": [true, "allow-empty-functions"],
         "eofline": false,
         "object-literal-key-quotes": false,
-        "no-empty-interface": false
+        "no-empty-interface": false,
+        "variable-name": [true, "allow-leading-underscore"]
     }
 }
