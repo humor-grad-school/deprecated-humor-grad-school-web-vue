@@ -9,11 +9,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
+
 export default Vue.extend({
     computed: {
         isLowerThanIE10() {
-            return navigator.userAgent.indexOf("MSIE") >= 0;
+            return navigator.userAgent.indexOf('MSIE') >= 0;
         }
     }
 });
