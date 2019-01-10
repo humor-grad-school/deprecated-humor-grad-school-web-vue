@@ -30,12 +30,6 @@ export default Vue.extend({
   -moz-osx-font-smoothing: grayscale;
   background-color: #fff;
 }
-.material-icons.md-12 { font-size: 12px; }
-.material-icons.md-16 { font-size: 16px; }
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
 .wrap {
     position: relative;
     margin: 0 auto;
@@ -43,24 +37,4 @@ export default Vue.extend({
     width: 100%;
     max-width: 1080px;
 }
-.contents {
-    float: left;
-    width: 85%;
-    min-height: 300px;
-}
-
-.hide { display: none; }
-.m-show { display: none; }
-.m-show_inline { display: none; }
-
-@media all and (max-width : 990px) {
-	.m-show { display: block; }
-	.m-show_inline { display: inline; }
-	.m-hide { display: none !important; }
-
-    .contents {
-        width: 100%;
-    }
-}
-
 </style>
