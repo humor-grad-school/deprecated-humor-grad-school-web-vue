@@ -80,6 +80,7 @@ export default Vue.extend({
 
 <style scoped>
 .pagination {
+    margin-top: 20px;
     text-align: center;
     margin-bottom: 30px;
 }

@@ -4,6 +4,7 @@ export interface BoardData {
     link: string;
     color: string;
     type: string;
+    allowWriting: boolean;
 }
 export interface HeaderData {
     text: string;
@@ -17,13 +18,15 @@ const boards = {
         link: '/board/humor',
         icon: 'tag_faces',
         color: '#e43b1a',
+        allowWriting: false
     },
     standby: {
         title: '대기 자료',
         type: 'image',
         link: '/board/standby',
         icon: 'face',
-        color: '#f17d0c'
+        color: '#f17d0c',
+        allowWriting: true
     }
 };
 

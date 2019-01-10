@@ -1,10 +1,12 @@
 <template>
     <div class="board">
         <announcement></announcement>
+        <write-button></write-button>
         <table>
             <board-header></board-header>
             <board-list></board-list>
         </table>
+        <write-button></write-button>
         <pagination @change="changePage"></pagination>
     </div>
 </template>
@@ -14,12 +16,13 @@ import Vue from 'vue';
 import Announcement from '@/views/components/board/announcement.vue';
 import BoardHeader from '@/views/components/board/board-header.vue';
 import BoardList from '@/views/components/board/board-list.vue';
+import WriteButton from '@/views/components/board/write-button.vue';
 import Pagination from '@/views/components/board/pagination.vue';
 import boardMapper from '@/modules/board-mapper';
 
 export default Vue.extend({
     name: 'board',
-    components: { Announcement, BoardHeader, BoardList, Pagination },
+    components: { Announcement, BoardHeader, BoardList, WriteButton, Pagination },
     beforeRouteEnter(to, _from, next) {
         next((vm: any) => {
             vm.fetchData(to);
@@ -46,6 +49,5 @@ export default Vue.extend({
 <style scoped>
 table {
     width: 100%;
-    margin-bottom: 40px;
 }
 </style>
