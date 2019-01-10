@@ -1,8 +1,8 @@
 <template>
     <div class="editor">
         <caution></caution>
-        <editor-area></editor-area>
         <post-setting></post-setting>
+        <editor-area></editor-area>
     </div>
 </template>
 

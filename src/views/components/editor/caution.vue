@@ -14,7 +14,7 @@ export default Vue.extend({
 
 <style scoped>
 .caution {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     border-top: 2px solid #555555;
     border-bottom: 1px solid #555555;
     padding: 12px 20px;
