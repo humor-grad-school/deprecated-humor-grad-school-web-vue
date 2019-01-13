@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import boardMapper from '@/modules/board-mapper';
+import { boardMapper } from '@/modules/board-mapper';
 
 export default Vue.extend({
     computed: {

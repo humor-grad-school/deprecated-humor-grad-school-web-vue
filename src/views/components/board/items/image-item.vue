@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import boardMapper, { HeaderData } from '@/modules/board-mapper';
+import { boardMapper, HeaderData } from '@/modules/board-mapper';
 
 export default Vue.extend({
     props: ['post'],

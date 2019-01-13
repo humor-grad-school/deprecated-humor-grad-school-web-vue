@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import StringUtil from '@/utils/string-util.ts';
+import { isValidEmail, } from '@/utils/string-util.ts';
 
 export default Vue.extend({
     data() {
@@ -32,7 +32,7 @@ export default Vue.extend({
                 return;
             }
 
-            if (StringUtil.isValidEmail(this.email) === false) {
+            if (isValidEmail(this.email) === false) {
                 this.$store.dispatch('ui/snackbar/show', { msg: '유효하지 않은 이메일입니다!', style: 'error' });
                 return;
             } 

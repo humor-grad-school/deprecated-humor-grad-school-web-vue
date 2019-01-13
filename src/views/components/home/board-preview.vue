@@ -21,7 +21,7 @@
 import Vue from 'vue';
 import Spinner from '@/views/common/spinner.vue';
 import PreviewFrame from './preview-frame.vue';
-import boardMapper, { BoardData } from '@/modules/board-mapper.ts';
+import { boardMapper, BoardData } from '@/modules/board-mapper.ts';
 
 export default Vue.extend({
     components: { Spinner, PreviewFrame },

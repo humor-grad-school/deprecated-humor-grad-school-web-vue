@@ -49,7 +49,7 @@ const headers = {
     ]
 };
 
-export default {
+export const boardMapper = {
     getBoardConfig(boardName: string): BoardData {
         return boards[boardName];
     },
@@ -57,3 +57,5 @@ export default {
         return headers[type];
     } 
 };
+
+export default boardMapper;
