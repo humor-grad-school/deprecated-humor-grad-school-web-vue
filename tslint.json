@@ -15,7 +15,7 @@
         "ordered-imports": false,
         "object-literal-sort-keys": false,
         "no-consecutive-blank-lines": true,
-        "trailing-comma": false,
+        "trailing-comma": true,
         "no-console": [true, "log"],
         "semicolon": true,
         "no-trailing-whitespace": false,
