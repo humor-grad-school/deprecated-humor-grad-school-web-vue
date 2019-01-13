@@ -9,11 +9,8 @@
             </button>
         </div>
         <div v-else>
-            <router-link :to="{ path: '/account', query: { from: $route.path }}" tag="button">
-                로그인
-            </router-link> |
-            <router-link :to="{ path: '/account', query: { from: $route.path }}" tag="button">
-                가입하기
+            <router-link :to="{ path: '/signIn', query: { from: $route.path }}" tag="button">
+                로그인 / 회원가입
             </router-link>
         </div>
     </div>

@@ -21,7 +21,9 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "jest"
+      "jest",
+      "gapi.auth2",
+      "facebook-js-sdk",
     ],
     "paths": {
       "@/*": [

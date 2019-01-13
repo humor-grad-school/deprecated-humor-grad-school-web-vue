@@ -12,9 +12,9 @@ export default new Router({
             component: Home
         },
         {
-            path: '/account',
-            name: 'account',
-            component: () => import(/* webpackChunkName: "account" */ './views/pages/account.vue')
+            path: '/signIn',
+            name: 'signin',
+            component: () => import(/* webpackChunkName: "signIn" */ './views/pages/sign-in.vue')
         },
         {
             path: '/board/:boardName',
