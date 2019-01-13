@@ -8,6 +8,7 @@
             data-show-faces="false"
             data-auto-logout-link="false"
             data-use-continue-as="false"
+            data-onlogin="onFbLogin"
         ></div>
     </div>
 </template>

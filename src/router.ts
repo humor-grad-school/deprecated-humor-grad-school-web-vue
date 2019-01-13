@@ -17,6 +17,11 @@ export default new Router({
             component: () => import(/* webpackChunkName: "signIn" */ './views/pages/sign-in.vue')
         },
         {
+            path: '/signUp',
+            name: 'signup',
+            component: () => import(/* webpackChunkName: "signUp" */ './views/pages/sign-up.vue')
+        },
+        {
             path: '/board/:boardName',
             redirect: '/board/:boardName/1'
         },
