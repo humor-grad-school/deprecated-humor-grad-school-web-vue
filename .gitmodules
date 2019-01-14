@@ -1,0 +1,3 @@
+[submodule "src/api/types"]
+	path = src/api/types
+	url = https://github.com/humor-grad-school/hgs-type-generator.git

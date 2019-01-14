@@ -1,25 +1,24 @@
-import { baseServerURL, is2xx, onNot2xx } from '.';
+import { baseServerURL, is2xx } from '.';
+import { RequestBodyType } from './types/generated/RequestBodyType';
+import { ParamMap } from './types/generated/ParamMap';
+import { ResponseType } from './types/generated/ResponseType';
 
-export interface AuthenticateResult {
-    sessionToken: string;
-}
 
-export async function authenticate(idToken: string, origin: string): Promise<AuthenticateResult> {
-    const response = await fetch(`${baseServerURL}/auth/${origin}`, {
+export async function authenticate(
+    params: ParamMap.AuthenticateParamMap,
+    body: RequestBodyType.AuthenticateRequestBodyType,
+): Promise<ResponseType.AuthenticateResponseType> {
+    // TODO use url from ApiDefinition
+    const response = await fetch(`${baseServerURL}/auth/${params.origin}`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify({
-            authenticationRequestData: {
-                idToken,
-            },
-        }),
+        body: JSON.stringify(body),
     });
 
-    if (is2xx(response)) {
-        return await response.json();
+    if (!is2xx(response)) {
+        throw new Error(response.status.toString());
     }
-
-    await onNot2xx(response);
+    return await response.json();
 }

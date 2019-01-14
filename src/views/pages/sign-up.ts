@@ -31,19 +31,23 @@ export default Vue.extend({
         async signUp() {
             try {
                 await signUp(this.username, this.origin, this.idToken);
-                const { sessionToken } = await authenticate(this.idToken, this.origin);
-                console.log(sessionToken);
-                // TODO : save this session Token please~
+                const {
+                    data,
+                    isSuccessful,
+                    errorCode,
+                 } = await authenticate(this.idToken, this.origin);
+                if (isSuccessful) {
+                    // TODO : save this session Token please~
+                    console.log(data.sessionToken);
 
-                this.$router.push({ name: 'home' });
-            } catch (errorCodeOrStatus) {
-                // errorCode for this function is not prepared yet
-                // const {
-                //     errorCode,
-                // } = await response.json();
-                // switch (errorCode) {
-                // }
-                console.error(errorCodeOrStatus);
+                    this.$router.push({
+                        name: 'home',
+                    });
+                    return;
+                }
+                console.log(errorCode);
+            } catch (statusCode) {
+                console.error(statusCode);
                 alert('sex');
             }
         }

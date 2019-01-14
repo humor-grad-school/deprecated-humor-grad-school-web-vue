@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { initFacebook } from '@/utils/initFacebook';
 import { authenticate } from '@/api/authenticate';
+import { ErrorCode } from '@/api/types/generated/ErrorCode';
 
 let facebookLoginHandler: (accessToken: string) => void;
 
@@ -29,34 +30,50 @@ export default Vue.extend({
     methods: {
         async authenticateWithHGS(idToken: string, origin: string) {
             try {
-                const { sessionToken } = await authenticate(idToken, this.origin);
+                const {
+                    isSuccessful,
+                    errorCode,
+                    data,
+                } = await authenticate({
+                    origin,
+                }, {
+                    authenticationRequestData: {
+                        idToken,
+                    }
+                });
+
+                if (!isSuccessful) {
+                    switch (errorCode) {
+                        case ErrorCode.AuthenticateErrorCode.NoUser:
+                            this.$router.push({
+                                name: 'signup',
+                                params: {
+                                        origin,
+                                        idToken,
+                                    },
+                                });
+                            break;
+                        case ErrorCode.AuthenticateErrorCode.AuthenticationFailed:
+                            // what!?
+                            break;
+                        case ErrorCode.AuthenticateErrorCode.WrongIdentityType:
+                            // check origin.
+                            break;
+                        default:
+                            break;
+                    }
+                    console.error(errorCode);
+                    throw new Error(errorCode);
+                }
+
+                const { sessionToken } = data;
                 // Successful login
                 // save sessionToken and that's all
                 console.log(sessionToken);
-            } catch (errorCodeOrStatus) {
-                console.log(errorCodeOrStatus);
-                switch (errorCodeOrStatus) {
-                    case 'WrongIdentityType': {
-                        // check your origin ('facebook', 'google', etc);
-                    }
-                    case 'NoUser': {
-                        // sign up please
-                        this.$router.push({
-                            name: 'signup',
-                            params: {
-                                    origin,
-                                    idToken,
-                                },
-                            });
-                        return;
-                    }
-                    case 'AuthenticationFailed': {
-                        // reject!
-                    }
-                    default: {
-                        // network error
-                    }
-                }
+                this.$router.push({ name: 'home' });
+            } catch (statusCode) {
+                // only network error.
+                alert(statusCode);
             }
         },
     },
