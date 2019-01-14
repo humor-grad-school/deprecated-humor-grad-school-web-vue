@@ -1,21 +1,25 @@
-import { baseServerURL, is2xx, onNot2xx } from '.';
+import { baseServerURL, is2xx } from '.';
+import { RequestBodyType } from './types/generated/RequestBodyType';
+import { ParamMap } from './types/generated/ParamMap';
+import { ResponseType } from './types/generated/ResponseType';
 
-export async function signUp(username: string, origin: string, idToken: string) {
+export async function signUp(
+    _: ParamMap.SignUpParamMap,
+    body: RequestBodyType.SignUpRequestBodyType,
+): Promise<ResponseType.SignUpResponseType> {
+    // TODO use url from ApiDefinition
     const response = await fetch(`${baseServerURL}/user`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
         },
-        body: JSON.stringify({
-            username,
-            origin,
-            authenticationRequestData: {
-                idToken,
-            },
-        }),
+        body: JSON.stringify(body),
     });
-    if (is2xx(response)) {
-        return;
+
+    if (!is2xx(response)) {
+        throw new Error(response.status.toString());
     }
-    await onNot2xx(response);
+    return await response.json();
 }
+
+
