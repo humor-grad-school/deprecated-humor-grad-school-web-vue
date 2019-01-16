@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { initFacebook } from '@/modules/facebook-auth';
-import { authenticate } from '@/modules/api/authenticate';
-import { ErrorCode } from '@/modules/api/types/generated/ErrorCode';
+import { ErrorCode } from '@/api/types/generated/ErrorCode';
+import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
 
 let facebookLoginHandler: (accessToken: string) => void;
 
@@ -37,7 +37,7 @@ export default Vue.extend({
                     isSuccessful,
                     errorCode,
                     data,
-                } = await authenticate({
+                } = await HgsRestApi.authenticate({
                     origin,
                 }, {
                     authenticationRequestData: {

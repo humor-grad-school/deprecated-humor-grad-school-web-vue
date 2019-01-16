@@ -1,6 +1,6 @@
 import { AuthState, AuthPayload } from './types';
 import { initGoogle, signOut } from '@/modules/google-auth';
-import { authenticate } from '@/modules/api/authenticate';
+import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
 
 const auth: AuthState = {
     authorized: false,
@@ -52,13 +52,14 @@ export default {
                             authenticationRequestData: { idToken }
                         };
 
-                        const res = await authenticate({ origin }, requestData);
+                        const res = await HgsRestApi.authenticate({ origin }, requestData);
                         const { data } = res;
                         commit('setSessionToken', data.sessionToken);
                         commit('signIn');
                         success(res);
                     } catch (statusCode) {
                         console.error(statusCode);
+                        error();
                     }
                 },
                 error: () => {

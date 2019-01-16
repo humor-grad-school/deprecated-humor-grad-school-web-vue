@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { ErrorCode } from '@/modules/api/types/generated/ErrorCode';
+import { ErrorCode } from '@/api/types/generated/ErrorCode';
 
 export default Vue.extend({
     mounted() {

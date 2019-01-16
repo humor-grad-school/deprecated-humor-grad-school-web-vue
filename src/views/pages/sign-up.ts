@@ -1,6 +1,5 @@
 import Vue from 'vue';
-import { authenticate } from '@/modules/api/authenticate';
-import { signUp } from '@/modules/api/sign-up';
+import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
 
 export default Vue.extend({
     name: 'sign-up',
@@ -26,7 +25,7 @@ export default Vue.extend({
             this.idToken = idToken;
         },
         async signUp() {
-            const response = await signUp({}, {
+            const response = await HgsRestApi.signUp({}, {
                 authenticationRequestData: {
                     idToken: this.idToken,
                 },
@@ -38,7 +37,7 @@ export default Vue.extend({
                     // data,
                     isSuccessful,
                     errorCode,
-                    } = await authenticate({
+                    } = await HgsRestApi.authenticate({
                         origin: this.origin,
                     }, {
                         authenticationRequestData: {
