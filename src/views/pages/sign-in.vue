@@ -1,25 +1,20 @@
 <template>
     <div class="sign-in">
-        <fb-sign-in-button />
-        <google-sign-in-button />
-        FB button
-        Goggle
-        Kakao
-        <!-- Naver << not yet -->
-        Email
+        <facebook-button />
+        <google-button />
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import FbSignInButton from '@/views/components/sign-in/fb-sign-in-button.vue';
-import GoogleSignInButton from '@/views/components/sign-in/google-sign-in-button.vue';
+import FacebookButton from '@/views/components/sign-in/facebook-button.vue';
+import GoogleButton from '@/views/components/sign-in/google-button.vue';
 
 export default Vue.extend({
     name: 'sign-in',
     components: {
-        FbSignInButton,
-        GoogleSignInButton,
+        FacebookButton,
+        GoogleButton,
     }
 });
 </script>

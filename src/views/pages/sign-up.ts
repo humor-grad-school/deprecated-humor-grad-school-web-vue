@@ -1,13 +1,10 @@
 import Vue from 'vue';
-import { authenticate } from '@/api/authenticate';
-import { signUp } from '@/api/signUp';
-import { ErrorCode } from '@/api/types/generated/ErrorCode';
+import { authenticate } from '@/modules/api/authenticate';
+import { signUp } from '@/modules/api/sign-up';
+import { ErrorCode } from '@/modules/api/types/generated/ErrorCode';
 
 export default Vue.extend({
     name: 'sign-up',
-    components: {
-
-    },
     data() {
         return {
             origin: '',
@@ -30,7 +27,6 @@ export default Vue.extend({
             this.idToken = idToken;
         },
         async signUp() {
-            console.log(this.origin);
             const response = await signUp({}, {
                 authenticationRequestData: {
                     idToken: this.idToken,
@@ -52,7 +48,7 @@ export default Vue.extend({
                     });
                 if (isSuccessful) {
                     // TODO : save this session Token please~
-                    console.log(data.sessionToken);
+                    // console.log(data.sessionToken);
 
                     this.$router.push({
                         name: 'home',
@@ -60,7 +56,7 @@ export default Vue.extend({
                     return;
                 }
                 // fail authenticate with new id!?!?!?!?
-                console.log(errorCode);
+                console.error(errorCode);
 
                 return;
             }
@@ -83,6 +79,6 @@ export default Vue.extend({
                     break;
             }
 
-        }
+        },
     },
 });

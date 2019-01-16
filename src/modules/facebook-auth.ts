@@ -1,4 +1,4 @@
-import loadExternalScriptAsync from './loadExternalScriptAsync';
+import { loadExternalScriptAsync } from '@/utils';
 
 let isAlreadyInited = false;
 

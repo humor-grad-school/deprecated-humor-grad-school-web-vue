@@ -17,10 +17,16 @@ export default {
     namespaced: true,
     state: editor,
     getters: {
-        
+        share() {
+
+        }
     },
     mutations: {
+
     },
     actions: {
+        publish({ commit }, data) {
+            
+        }
     }
 };

@@ -1,49 +1,41 @@
 import Vue from 'vue';
-import { initGoogle } from '@/utils/initGoogle';
-import { authenticate } from '@/api/authenticate';
-import { ErrorCode } from '@/api/types/generated/ErrorCode';
+import { initFacebook } from '@/modules/facebook-auth';
+import { authenticate } from '@/modules/api/authenticate';
+import { ErrorCode } from '@/modules/api/types/generated/ErrorCode';
+
+let facebookLoginHandler: (accessToken: string) => void;
+
+(window as any).onFbLogin = (data) => {
+    if (!facebookLoginHandler) {
+        console.error('[ERROR] facebookLoginHandler is undefined');
+        return;
+    }
+    if (data.status !== 'connected') {
+        console.error(`data.status : ${data.status}`);
+        return;
+    }
+
+    facebookLoginHandler(data.authResponse.accessToken);
+};
 
 export default Vue.extend({
     name: 'fb-sign-in-button',
     props: {
-
     },
     data() {
         return {
-            googleLoginButtonId: 'google-button',
-            origin: 'google',
+            origin: 'facebook',
         };
     },
-    async mounted() {
-        await initGoogle();
-
-        // this is test code. user who already signed in cannot see this buton!
-        const instance = gapi.auth2.getAuthInstance();
-        if (instance && instance.isSignedIn) {
-            await instance.signOut();
-        }
-        /////////////////////////////////////////////////////////////////////////
-
-        gapi.signin2.render(this.googleLoginButtonId, {
-            scope: 'profile email',
-            width: 240,
-            height: 50,
-            longtitle: true,
-            theme: 'dark',
-            onsuccess: this.onGoogleLoginSuccess.bind(this),
-            onfailure: this.onGoogleLoginFailed.bind(this),
-        });
-    },
     methods: {
-        async onGoogleLoginSuccess(loginResult) {
-            const { id_token: idToken } = loginResult.getAuthResponse();
+        async authenticateWithHGS(idToken: string, origin: string) {
             try {
                 const {
                     isSuccessful,
                     errorCode,
                     data,
                 } = await authenticate({
-                    origin: this.origin,
+                    origin,
                 }, {
                     authenticationRequestData: {
                         idToken,
@@ -53,11 +45,10 @@ export default Vue.extend({
                 if (!isSuccessful) {
                     switch (errorCode) {
                         case ErrorCode.AuthenticateErrorCode.NoUser:
-                            console.log(this.origin);
                             this.$router.push({
                                 name: 'signup',
                                 params: {
-                                        origin: this.origin,
+                                        origin,
                                         idToken,
                                     },
                                 });
@@ -69,24 +60,29 @@ export default Vue.extend({
                             // check origin.
                             break;
                         default:
-                            console.error(errorCode);
                             break;
                     }
-                    return;
+                    console.error(errorCode);
+                    throw new Error(errorCode);
                 }
 
                 const { sessionToken } = data;
                 // Successful login
                 // save sessionToken and that's all
                 console.log(sessionToken);
+
+                this.$store.dispatch()
                 this.$router.push({ name: 'home' });
             } catch (statusCode) {
                 // only network error.
-                console.error(statusCode);
+                alert(statusCode);
             }
         },
-        onGoogleLoginFailed() {
-            console.log('ah failed');
-        },
-    }
+    },
+    async mounted() {
+        await initFacebook();
+        facebookLoginHandler = (accessToken) => {
+            this.authenticateWithHGS(accessToken, this.origin);
+        };
+    },
 });

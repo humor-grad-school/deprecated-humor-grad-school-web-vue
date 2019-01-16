@@ -1,41 +1,46 @@
 import Vue from 'vue';
-import { initFacebook } from '@/utils/initFacebook';
-import { authenticate } from '@/api/authenticate';
-import { ErrorCode } from '@/api/types/generated/ErrorCode';
-
-let facebookLoginHandler: (accessToken: string) => void;
-
-(window as any).onFbLogin = (data) => {
-    if (!facebookLoginHandler) {
-        console.log('facebookLoginHandler is undefined');
-        return;
-    }
-    if (data.status !== 'connected') {
-        console.log(`data.status : ${data.status}`);
-        return;
-    }
-
-    facebookLoginHandler(data.authResponse.accessToken);
-};
+import { initGoogle } from '@/modules/google-auth';
+import { authenticate } from '@/modules/api/authenticate';
+import { ErrorCode } from '@/modules/api/types/generated/ErrorCode';
 
 export default Vue.extend({
-    name: 'fb-sign-in-button',
-    props: {
-    },
+    name: 'google-button',
     data() {
         return {
-            origin: 'facebook',
+            googleLoginButtonId: 'google-button',
+            origin: 'google',
         };
     },
+    async mounted() {
+        await initGoogle();
+
+        // this is test code. user who already signed in cannot see this buton!
+        const instance = gapi.auth2.getAuthInstance();
+        if (instance && instance.isSignedIn) {
+            await instance.signOut();
+        }
+        /////////////////////////////////////////////////////////////////////////
+
+        gapi.signin2.render(this.googleLoginButtonId, {
+            scope: 'profile email',
+            width: 240,
+            height: 50,
+            longtitle: true,
+            theme: 'dark',
+            onsuccess: this.onGoogleLoginSuccess.bind(this),
+            onfailure: this.onGoogleLoginFailed.bind(this),
+        });
+    },
     methods: {
-        async authenticateWithHGS(idToken: string, origin: string) {
+        async onGoogleLoginSuccess(loginResult) {
+            const { id_token: idToken } = loginResult.getAuthResponse();
             try {
                 const {
                     isSuccessful,
                     errorCode,
                     data,
                 } = await authenticate({
-                    origin,
+                    origin: this.origin,
                 }, {
                     authenticationRequestData: {
                         idToken,
@@ -45,10 +50,11 @@ export default Vue.extend({
                 if (!isSuccessful) {
                     switch (errorCode) {
                         case ErrorCode.AuthenticateErrorCode.NoUser:
+                            console.log(this.origin);
                             this.$router.push({
                                 name: 'signup',
                                 params: {
-                                        origin,
+                                        origin: this.origin,
                                         idToken,
                                     },
                                 });
@@ -60,10 +66,10 @@ export default Vue.extend({
                             // check origin.
                             break;
                         default:
+                            console.error(errorCode);
                             break;
                     }
-                    console.error(errorCode);
-                    throw new Error(errorCode);
+                    return;
                 }
 
                 const { sessionToken } = data;
@@ -73,15 +79,11 @@ export default Vue.extend({
                 this.$router.push({ name: 'home' });
             } catch (statusCode) {
                 // only network error.
-                alert(statusCode);
+                console.error(statusCode);
             }
         },
-    },
-    async mounted() {
-        await initFacebook();
-        facebookLoginHandler = (accessToken) => {
-            console.log(accessToken);
-            this.authenticateWithHGS(accessToken, this.origin);
-        };
-    },
+        onGoogleLoginFailed() {
+            console.log('ah failed');
+        },
+    }
 });

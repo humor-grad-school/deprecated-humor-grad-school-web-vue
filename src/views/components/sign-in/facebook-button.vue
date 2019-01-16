@@ -1,5 +1,5 @@
 <template>
-    <div class="fb-sign-in-button">
+    <div class="facebook-button">
         <div
             class="fb-login-button"
             data-max-rows="1"
@@ -13,9 +13,5 @@
     </div>
 </template>
 
-<script lang="ts" src="./fb-sign-in-button.ts">
+<script lang="ts" src="./facebook-button.ts">
 </script>
-
-<style scoped>
-
-</style>

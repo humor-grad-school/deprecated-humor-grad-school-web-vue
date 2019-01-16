@@ -1,4 +1,4 @@
-import loadExternalScriptAsync from './loadExternalScriptAsync';
+import { loadExternalScriptAsync } from '@/utils';
 
 let isAlreadyInited = false;
 
@@ -6,6 +6,7 @@ export async function initGoogle() {
     if (isAlreadyInited) {
         return;
     }
+
     await loadExternalScriptAsync('google-jssdk',
         'https://apis.google.com/js/platform.js?hl=ko');
 
@@ -15,6 +16,5 @@ export async function initGoogle() {
         });
     });
 
-    console.log('google init finished');
     isAlreadyInited = true;
 }

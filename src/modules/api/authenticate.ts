@@ -3,7 +3,6 @@ import { RequestBodyType } from './types/generated/RequestBodyType';
 import { ParamMap } from './types/generated/ParamMap';
 import { ResponseType } from './types/generated/ResponseType';
 
-
 export async function authenticate(
     params: ParamMap.AuthenticateParamMap,
     body: RequestBodyType.AuthenticateRequestBodyType,
