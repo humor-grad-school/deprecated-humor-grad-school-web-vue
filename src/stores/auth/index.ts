@@ -1,6 +1,7 @@
 import { AuthState, AuthPayload } from './types';
 import { initGoogle, signOutGoogle } from '@/modules/google-auth';
 import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
+import { initFacebook, loginFacebook } from '@/modules/facebook-auth';
 
 const auth: AuthState = {
     authorized: false,
@@ -49,10 +50,10 @@ export default {
             commit('setAuthorized', false);
         },
         initGoogleAuth({ commit, state }, { provider, success = () => {}, error = () => {} }: AuthPayload) {
-            commit('setProvider', provider);
-
             initGoogle({
                 success: async (loginResult) => {
+                    commit('setProvider', provider);
+
                     const { id_token: idToken } = loginResult.getAuthResponse();
 
                     try {
@@ -82,5 +83,39 @@ export default {
                 }
             });
         },
+        initFacebookAuth() {
+            initFacebook();
+        },
+        loginFacebookAuth({ commit, state }, { provider, success = () => {}, error = () => {} }: AuthPayload) {
+            commit('setProvider', provider);
+
+            loginFacebook({
+                success: async (loginResult) => {
+                    const idToken = loginResult.accessToken;
+
+                    try {
+                        const origin = provider;
+                        const requestData = {
+                            authenticationRequestData: { idToken }
+                        };
+                        const res = await HgsRestApi.authenticate({ origin }, requestData);
+                        
+                        if (res.isSuccessful) {
+                            const sessionToken = res.data.sessionToken;
+                            HgsRestApi.setSessionToken(sessionToken);
+                            if (state.saveAuth) {
+                                localStorage.setItem('sessionToken', sessionToken);
+                            }
+
+                            success();
+                        } else {
+                            error(res.errorCode);
+                        }
+                    } catch (statusCode) {
+                        error(statusCode);
+                    }
+                }
+            });
+        }
     }
 };
