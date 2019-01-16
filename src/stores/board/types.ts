@@ -15,4 +15,5 @@ export interface BoardState {
     currentPage: number;
     type: string;
     posts: BoardPostState[];
+    boardName: string;
 }

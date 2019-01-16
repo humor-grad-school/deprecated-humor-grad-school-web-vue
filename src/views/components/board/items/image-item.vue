@@ -4,7 +4,7 @@
         <td class="post-thumbnail"
             :style="{ width: cols[0].width + '%' }">
             <router-link :to="'/post/' + post.id"
-                 :style="{ backgroundImage: 'url(' + post.thumbnail + ')'}">
+                 :style="{ backgroundImage: 'url(' + post.thumbnailUrl + ')'}">
             </router-link>
         </td>
         <td class="post-title"
@@ -13,12 +13,12 @@
                 {{ post.title }}
                 <span class="comment-count" v-if="post.commentCount">[{{ post.commentCount }}]</span>
             </router-link>
-        </td> 
+        </td>
         <td class="post-writer"
             :style="{ width: cols[2].width + '%' }">
                 <div class="post-writer-wrap">
-                    <div class="writer-thumbnail"
-                        :style="{ backgroundImage: 'url(' + post.writer.thumbnail + ')'}">
+                    <div class="writer-avatar"
+                        :style="{ backgroundImage: 'url(' + post.writer.avatarUrl + ')'}">
                     </div>
                     <router-link :to="'/profile/' + post.writer.id">{{ post.writer.username }}</router-link>
                 </div>
@@ -27,7 +27,7 @@
             {{ post.createdAt }}
         </td>
         <td :style="{ width: cols[4].width + '%' }">
-            {{ post.read }}
+            {{ post.views }}
         </td>
         <td :style="{ width: cols[5].width + '%' }">
             <span class="like-count" :class="{ 'is-liked': post.isLiked }">{{ post.likes }}</span>
@@ -104,7 +104,7 @@ td {
     overflow: hidden;
     padding-left: 8px;
 }
-.writer-thumbnail {
+.writer-avatar {
     position: relative;
     top: 8px;
     display: inline-block;

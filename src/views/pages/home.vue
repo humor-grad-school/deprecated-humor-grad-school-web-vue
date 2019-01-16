@@ -1,10 +1,10 @@
 <template>
     <div class="home">
         <div class="board-preview-wrap">
-            <board-preview type="humor"></board-preview>
+            <board-preview type="best"></board-preview>
         </div>
         <div class="board-preview-wrap">
-            <board-preview type="standby"></board-preview>
+            <board-preview type="humor"></board-preview>
         </div>
     </div>
 </template>

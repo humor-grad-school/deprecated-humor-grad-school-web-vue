@@ -36,7 +36,7 @@ export default Vue.extend({
         fetchData(route) {
             const { boardName, page } = route.params;
             const type = boardMapper.getBoardConfig(boardName).type;
-            this.$store.dispatch('board/fetch', { type, page: parseInt(page, 10) });
+            this.$store.dispatch('board/fetch', { type, page: parseInt(page, 10), boardName });
         },
         changePage(page) {
             const boardName = this.$route.params.boardName;

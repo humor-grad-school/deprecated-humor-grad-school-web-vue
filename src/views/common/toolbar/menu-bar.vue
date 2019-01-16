@@ -2,10 +2,10 @@
     <div class="menu-bar" :class="{ menuOn: isMenuOn }">
         <ul class="menu-list">
             <li>
-                <router-link to="/board/humor" class="menu-item">웃긴 자료</router-link>
+                <router-link to="/board/best" class="menu-item">웃긴 자료</router-link>
             </li>
             <li>
-                <router-link to="/board/standby" class="menu-item">대기 자료</router-link>
+                <router-link to="/board/humor" class="menu-item">대기 자료</router-link>
             </li>
         </ul>
     </div>

@@ -12,18 +12,18 @@ export interface HeaderData {
 }
 
 const boards = {
-    humor: {
+    best: {
         title: '웃긴 자료',
         type: 'image',
-        link: '/board/humor',
+        link: '/board/best',
         icon: 'tag_faces',
         color: '#e43b1a',
         allowWriting: false
     },
-    standby: {
+    humor: {
         title: '대기 자료',
         type: 'image',
-        link: '/board/standby',
+        link: '/board/humor',
         icon: 'face',
         color: '#f17d0c',
         allowWriting: true
@@ -37,7 +37,7 @@ const headers = {
         { text: '작성자', width: 16 },
         { text: '등록일', width: 16 },
         { text: '조회수', width: 9 },
-        { text: '추천', width: 9 },        
+        { text: '추천', width: 9 },
     ],
     text: [
         { text: '번호', width: 12 },
@@ -45,7 +45,7 @@ const headers = {
         { text: '작성자', width: 20 },
         { text: '등록일', width: 12 },
         { text: '조회수', width: 8 },
-        { text: '추천', width: 8 },        
+        { text: '추천', width: 8 },
     ]
 };
 
@@ -55,7 +55,7 @@ export const boardMapper = {
     },
     getBoardHeader(type: string): HeaderData[] {
         return headers[type];
-    } 
+    }
 };
 
 export default boardMapper;
