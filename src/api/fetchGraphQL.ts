@@ -1,9 +1,13 @@
 import { HgsRestApi } from './types/generated/client/ClientApis';
 
 let baseServerUrl: string;
+let sessionToken: string;
 
 export async function setGrahQLBaseServerUrl(url) {
   baseServerUrl = url;
+}
+export async function setGraphQlSessionToken(newSessionToken: string) {
+  sessionToken = newSessionToken;
 }
 
 export async function fetchGraphQL(query: string) {
@@ -11,6 +15,10 @@ export async function fetchGraphQL(query: string) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      ...(sessionToken
+          ? { Authorization: `sessionToken ${sessionToken}` }
+          : {}
+        ),
     },
     body: JSON.stringify({
       query,
