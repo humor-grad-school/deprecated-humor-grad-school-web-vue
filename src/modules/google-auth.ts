@@ -14,6 +14,8 @@ export async function initGoogle({ success, error }) {
         });
     }
 
+    await signOutGoogle();
+
     gapi.signin2.render('google-log-in', {
         scope: 'profile email',
         width: 240,
@@ -27,9 +29,9 @@ export async function initGoogle({ success, error }) {
     isInitiated = true;
 }
 
-export function signOut() {
+export async function signOutGoogle() {
     const instance = gapi.auth2.getAuthInstance();
     if (instance && instance.isSignedIn) {
-        instance.signOut();
+        await instance.signOut();
     }
 }

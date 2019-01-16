@@ -1,10 +1,12 @@
 import { AuthState, AuthPayload } from './types';
-import { initGoogle, signOut } from '@/modules/google-auth';
+import { initGoogle, signOutGoogle } from '@/modules/google-auth';
 import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
 
 const auth: AuthState = {
     authorized: false,
     provider: '',
+    idToken: '',
+    saveAuth: false,
 };
 
 export default {
@@ -13,33 +15,40 @@ export default {
     getters: {
         authorized(state: AuthState) {
             return state.authorized;
-        }
+        },
+        saveAuth(state: AuthState) {
+            return state.saveAuth;
+        },
+        provider(state: AuthState) {
+            return state.provider;
+        },
+        idToken(state: AuthState) {
+            return state.idToken;
+        },
     },
     mutations: {
-        signIn(state: AuthState) {
-            state.authorized = true;
+        saveAuth(state: AuthState, value: boolean) {
+            state.saveAuth = value;
         },
-        signOut(state: AuthState) {
-            state.authorized = false;
+        setAuthorized(state: AuthState, value: boolean) {
+            state.authorized = value;
         },
         setProvider(state: AuthState, provider: string) {
             state.provider = provider;
         },
-        setSessionToken(state: AuthState, sessionToken) {
-            console.log(sessionToken);
-        }
     },
     actions: {
-        signIn({ commit }) {
-            commit('signIn');
+        saveAuth({ commit }, value) {
+            commit('saveAuth', value);
         },
         signOut({ commit, state }) {
             if (state.provider === 'google') {
-                signOut();
+                signOutGoogle();
             }
-            commit('signOut');
+
+            commit('setAuthorized', false);
         },
-        initGoogleAuth({ commit }, { provider, success = () => {}, error = () => {} }: AuthPayload) {
+        initGoogleAuth({ commit, state }, { provider, success = () => {}, error = () => {} }: AuthPayload) {
             commit('setProvider', provider);
 
             initGoogle({
@@ -51,21 +60,27 @@ export default {
                         const requestData = {
                             authenticationRequestData: { idToken }
                         };
-
                         const res = await HgsRestApi.authenticate({ origin }, requestData);
-                        const { data } = res;
-                        commit('setSessionToken', data.sessionToken);
-                        commit('signIn');
-                        success(res);
+                        
+                        if (res.isSuccessful) {
+                            const sessionToken = res.data.sessionToken;
+                            HgsRestApi.setSessionToken(sessionToken);
+                            if (state.saveAuth) {
+                                localStorage.setItem('sessionToken', sessionToken);
+                            }
+
+                            success();
+                        } else {
+                            error(res.errorCode);
+                        }
                     } catch (statusCode) {
-                        console.error(statusCode);
-                        error();
+                        error(statusCode);
                     }
                 },
                 error: () => {
                     error();
                 }
             });
-        }
+        },
     }
 };

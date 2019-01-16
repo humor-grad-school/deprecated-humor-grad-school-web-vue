@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from '@/stores';
+
 import Home from './views/pages/home.vue';
 
 Vue.use(Router);
@@ -14,7 +16,15 @@ export default new Router({
         {
             path: '/signIn',
             name: 'signin',
-            component: () => import(/* webpackChunkName: "signIn" */ './views/pages/sign-in.vue')
+            component: () => import(/* webpackChunkName: "signIn" */ './views/pages/sign-in.vue'),
+            beforeEnter: (_to, from, next) => {
+                const isAuthorized = store.getters['auth/authorized'];
+                if (isAuthorized) {
+                    next(from.fullPath);
+                } else {
+                    next();
+                }
+            }
         },
         {
             path: '/signUp',
