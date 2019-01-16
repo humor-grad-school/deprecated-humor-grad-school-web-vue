@@ -1,20 +1,18 @@
 import { loadExternalScriptAsync } from '@/utils';
 
-let isAlreadyInited = false;
+let isInitiated = false;
 
 export async function initGoogle({ success, error }) {
-    if (isAlreadyInited) {
-        return;
-    }
+    if (isInitiated === false) {
+        await loadExternalScriptAsync('google-jssdk',
+            'https://apis.google.com/js/platform.js?hl=ko');
 
-    await loadExternalScriptAsync('google-jssdk',
-        'https://apis.google.com/js/platform.js?hl=ko');
-
-    await new Promise((resolve) => {
-        gapi.load('auth2', () => {
-            resolve();
+        await new Promise((resolve) => {
+            gapi.load('auth2', () => {
+                resolve();
+            });
         });
-    });
+    }
 
     gapi.signin2.render('google-log-in', {
         scope: 'profile email',
@@ -26,7 +24,7 @@ export async function initGoogle({ success, error }) {
         onfailure: error,
     });
 
-    isAlreadyInited = true;
+    isInitiated = true;
 }
 
 export function signOut() {
