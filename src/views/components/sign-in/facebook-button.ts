@@ -19,12 +19,15 @@ let facebookLoginHandler: (accessToken: string) => void;
 };
 
 export default Vue.extend({
-    name: 'fb-sign-in-button',
-    props: {
-    },
     data() {
         return {
             origin: 'facebook',
+        };
+    },
+    async mounted() {
+        await initFacebook();
+        facebookLoginHandler = (accessToken) => {
+            this.authenticateWithHGS(accessToken, this.origin);
         };
     },
     methods: {
@@ -70,19 +73,11 @@ export default Vue.extend({
                 // Successful login
                 // save sessionToken and that's all
                 console.log(sessionToken);
-
-                this.$store.dispatch()
                 this.$router.push({ name: 'home' });
             } catch (statusCode) {
                 // only network error.
                 alert(statusCode);
             }
         },
-    },
-    async mounted() {
-        await initFacebook();
-        facebookLoginHandler = (accessToken) => {
-            this.authenticateWithHGS(accessToken, this.origin);
-        };
     },
 });

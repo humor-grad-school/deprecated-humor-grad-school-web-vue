@@ -2,7 +2,7 @@ import { loadExternalScriptAsync } from '@/utils';
 
 let isAlreadyInited = false;
 
-export async function initGoogle() {
+export async function initGoogle({ success, error }) {
     if (isAlreadyInited) {
         return;
     }
@@ -16,5 +16,22 @@ export async function initGoogle() {
         });
     });
 
+    gapi.signin2.render('google-log-in', {
+        scope: 'profile email',
+        width: 240,
+        height: 50,
+        longtitle: true,
+        theme: 'dark',
+        onsuccess: success,
+        onfailure: error,
+    });
+
     isAlreadyInited = true;
+}
+
+export function signOut() {
+    const instance = gapi.auth2.getAuthInstance();
+    if (instance && instance.isSignedIn) {
+        instance.signOut();
+    }
 }

@@ -1,8 +1,10 @@
-import { AuthState } from './types';
+import { AuthState, AuthPayload } from './types';
+import { initGoogle, signOut } from '@/modules/google-auth';
+import { authenticate } from '@/modules/api/authenticate';
 
 const auth: AuthState = {
     authorized: false,
-    emailVerified: false
+    provider: '',
 };
 
 export default {
@@ -11,9 +13,6 @@ export default {
     getters: {
         authorized(state: AuthState) {
             return state.authorized;
-        },
-        emailVerified(state: AuthState) {
-            return state.emailVerified;
         }
     },
     mutations: {
@@ -23,19 +22,49 @@ export default {
         signOut(state: AuthState) {
             state.authorized = false;
         },
-        verifyEmail(state: AuthState) {
-            state.emailVerified = true;
+        setProvider(state: AuthState, provider: string) {
+            state.provider = provider;
+        },
+        setSessionToken(state: AuthState, sessionToken) {
+            console.log(sessionToken);
         }
     },
     actions: {
         signIn({ commit }) {
             commit('signIn');
         },
-        signOut({ commit }) {
+        signOut({ commit, state }) {
+            if (state.provider === 'google') {
+                signOut();
+            }
             commit('signOut');
         },
-        verifyEmail({ commit }) {
-            commit('verifyEmail');
+        initGoogleAuth({ commit }, { provider, success = () => {}, error = () => {} }: AuthPayload) {
+            commit('setProvider', provider);
+
+            initGoogle({
+                success: async (loginResult) => {
+                    const { id_token: idToken } = loginResult.getAuthResponse();
+
+                    try {
+                        const origin = provider;
+                        const requestData = {
+                            authenticationRequestData: { idToken }
+                        };
+
+                        const res = await authenticate({ origin }, requestData);
+                        const { data } = res;
+                        commit('setSessionToken', data.sessionToken);
+                        commit('signIn');
+                        success(res);
+                    } catch (statusCode) {
+                        console.error(statusCode);
+                    }
+                },
+                error: () => {
+                    error();
+                }
+            });
         }
     }
 };

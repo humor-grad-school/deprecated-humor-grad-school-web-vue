@@ -1,4 +1,10 @@
 export interface AuthState {
     authorized: boolean;
-    emailVerified: boolean;
+    provider: string;
+}
+
+export interface AuthPayload {
+    provider: string;
+    success?: any;
+    error?: any;
 }

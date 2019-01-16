@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import { authenticate } from '@/modules/api/authenticate';
 import { signUp } from '@/modules/api/sign-up';
-import { ErrorCode } from '@/modules/api/types/generated/ErrorCode';
 
 export default Vue.extend({
     name: 'sign-up',
@@ -36,7 +35,7 @@ export default Vue.extend({
             });
             if (response.isSuccessful) {
                 const {
-                    data,
+                    // data,
                     isSuccessful,
                     errorCode,
                     } = await authenticate({
