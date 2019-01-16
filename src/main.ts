@@ -5,8 +5,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './stores';
-import { HgsRestApi } from './api/types/generated/client/ClientApis';
 import { setGrahQLBaseServerUrl } from './api/fetchGraphQL';
+import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
 
 Vue.config.productionTip = false;
 
