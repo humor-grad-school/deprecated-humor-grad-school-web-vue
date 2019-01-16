@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
+import { ErrorCode } from '@/api/types/generated/ErrorCode';
 
 export default Vue.extend({
     name: 'sign-up',
