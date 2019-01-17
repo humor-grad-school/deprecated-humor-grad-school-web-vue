@@ -1,66 +1,28 @@
 import Vue from 'vue';
-import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
 import { ErrorCode } from '@/api/types/generated/ErrorCode';
 
 export default Vue.extend({
     name: 'sign-up',
     data() {
         return {
-            origin: '',
-            idToken: '',
-            username: '',
+            username: ''
         };
     },
-    beforeRouteEnter(to, _from, next) {
-        next((vm: any) => {
-            vm.getParams(to);
-        });
-    },
     methods: {
-        getParams(route) {
-            const {
-                origin,
-                idToken,
-            } = route.params;
-            this.origin = origin;
-            this.idToken = idToken;
-        },
-        async signUp() {
-            const response = await HgsRestApi.signUp({}, {
-                authenticationRequestData: {
-                    idToken: this.idToken,
-                },
-                origin: this.origin,
+        signUp() {
+            this.$store.dispatch('auth/signUp', {
                 username: this.username,
+                success: this.onSuccess.bind(this),
+                error: this.onError.bind(this),
             });
-            if (response.isSuccessful) {
-                const {
-                    // data,
-                    isSuccessful,
-                    errorCode,
-                    } = await HgsRestApi.authenticate({
-                        origin: this.origin,
-                    }, {
-                        authenticationRequestData: {
-                            idToken: this.idToken,
-                        },
-                    });
-                if (isSuccessful) {
-                    // TODO : save this session Token please~
-                    // console.log(data.sessionToken);
-
-                    this.$router.push({
-                        name: 'home',
-                    });
-                    return;
-                }
-                // fail authenticate with new id!?!?!?!?
-                console.error(errorCode);
-
-                return;
-            }
-
-            switch (response.errorCode) {
+        },
+        onSuccess() {
+            const from = this.$route.query.from || '/';
+            this.$router.push({ path: from });
+        },
+        onError(errorCode) {
+            console.log(errorCode);
+            switch (errorCode) {
                 case ErrorCode.SignUpErrorCode.AuthenticationFailed:
                     // maybe user's 3rd party token has been expired.
                     break;
@@ -73,11 +35,9 @@ export default Vue.extend({
                 case ErrorCode.SignUpErrorCode.WrongOrigin:
                     // check origin is facebook, google, or something ok? ok.
                     break;
-
                 default:
                     break;
             }
-
         },
     },
 });

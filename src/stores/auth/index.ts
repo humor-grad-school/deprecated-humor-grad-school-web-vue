@@ -1,7 +1,7 @@
 import { AuthState, AuthPayload } from './types';
 import { initGoogle, signOutGoogle } from '@/modules/google-auth';
 import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
-import { initFacebook, loginFacebook } from '@/modules/facebook-auth';
+import { initFacebook, loginFacebook, signOutFacebook } from '@/modules/facebook-auth';
 
 const auth: AuthState = {
     authorized: false,
@@ -34,6 +34,9 @@ export default {
         setAuthorized(state: AuthState, value: boolean) {
             state.authorized = value;
         },
+        setIdToken(state: AuthState, idToken: string) {
+            state.idToken = idToken;
+        },
         setProvider(state: AuthState, provider: string) {
             state.provider = provider;
         },
@@ -43,79 +46,97 @@ export default {
             commit('saveAuth', value);
         },
         signOut({ commit, state }) {
-            if (state.provider === 'google') {
+            const provider = state.provider;
+            if (provider === 'google') {
                 signOutGoogle();
+            } else if (provider === 'facebook') {
+                signOutFacebook();
             }
 
             commit('setAuthorized', false);
         },
-        initGoogleAuth({ commit, state }, { provider, success = () => {}, error = () => {} }: AuthPayload) {
+        initGoogleAuth({ dispatch }, payload: AuthPayload) {
             initGoogle({
                 success: async (loginResult) => {
-                    commit('setProvider', provider);
-
                     const { id_token: idToken } = loginResult.getAuthResponse();
-
-                    try {
-                        const origin = provider;
-                        const requestData = {
-                            authenticationRequestData: { idToken }
-                        };
-                        const res = await HgsRestApi.authenticate({ origin }, requestData);
-                        
-                        if (res.isSuccessful) {
-                            const sessionToken = res.data.sessionToken;
-                            HgsRestApi.setSessionToken(sessionToken);
-                            if (state.saveAuth) {
-                                localStorage.setItem('sessionToken', sessionToken);
-                            }
-
-                            success();
-                        } else {
-                            error(res.errorCode);
-                        }
-                    } catch (statusCode) {
-                        error(statusCode);
-                    }
+                    dispatch('authenticate', Object.assign(payload, { idToken }));
                 },
-                error: () => {
-                    error();
+                error: (err) => {
+                    if (payload.error) {
+                        payload.error(err);
+                    }
                 }
             });
         },
         initFacebookAuth() {
             initFacebook();
         },
-        loginFacebookAuth({ commit, state }, { provider, success = () => {}, error = () => {} }: AuthPayload) {
-            commit('setProvider', provider);
-
+        loginFacebookAuth({ dispatch }, payload: AuthPayload) {
             loginFacebook({
                 success: async (loginResult) => {
                     const idToken = loginResult.accessToken;
-
-                    try {
-                        const origin = provider;
-                        const requestData = {
-                            authenticationRequestData: { idToken }
-                        };
-                        const res = await HgsRestApi.authenticate({ origin }, requestData);
-                        
-                        if (res.isSuccessful) {
-                            const sessionToken = res.data.sessionToken;
-                            HgsRestApi.setSessionToken(sessionToken);
-                            if (state.saveAuth) {
-                                localStorage.setItem('sessionToken', sessionToken);
-                            }
-
-                            success();
-                        } else {
-                            error(res.errorCode);
-                        }
-                    } catch (statusCode) {
-                        error(statusCode);
-                    }
+                    dispatch('authenticate', Object.assign(payload, { idToken }));
                 }
             });
-        }
+        },
+        async authenticate({ commit, state }, { provider, idToken, success, error }) {
+            try {
+                commit('setProvider', provider);
+                commit('setIdToken', idToken);
+
+                const requestData = {
+                    authenticationRequestData: { idToken }
+                };
+                const res = await HgsRestApi.authenticate({ origin: provider }, requestData);
+                
+                if (res.isSuccessful) {
+                    const sessionToken = res.data.sessionToken;
+                    HgsRestApi.setSessionToken(sessionToken);
+                    if (state.saveAuth) {
+                        localStorage.setItem('sessionToken', sessionToken);
+                    }
+
+                    if (success) {
+                        success();
+                    }
+
+                    commit('setAuthorized', true);
+                } else {
+                    if (error) {
+                        error(res.errorCode);
+                    }
+
+                    commit('setAuthorized', false);
+                }
+            } catch (statusCode) {
+                if (error) {
+                    error(statusCode);
+                }
+            }
+        },
+        async signUp({ dispatch, state }, { username, success, error }) {
+            try {
+                const signUpResponse = await HgsRestApi.signUp({}, {
+                    authenticationRequestData: {
+                        idToken: state.idToken
+                    },
+                    origin: state.provider,
+                    username,
+                });
+
+                if (signUpResponse.isSuccessful) {
+                    dispatch('authenticate', {
+                        provider: state.provider,
+                        idToken: state.idToken,
+                        success,
+                        error,
+                    });
+                } else {
+                    error(signUpResponse.errorCode);
+                }
+            } catch (err) {
+                error(err);
+            }
+        },
     }
 };

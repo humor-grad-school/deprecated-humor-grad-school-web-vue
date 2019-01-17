@@ -6,7 +6,7 @@ export interface AuthState {
 }
 
 export interface AuthPayload {
-    provider: string;
+    provider?: string;
     success?: any;
     error?: any;
 }

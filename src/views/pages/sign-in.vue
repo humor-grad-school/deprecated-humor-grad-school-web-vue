@@ -13,4 +13,3 @@ export default Vue.extend({
     components: { SocialSignIn },
 })
 </script>
-
