@@ -1,4 +1,5 @@
 import { EditorState } from './types';
+import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
 
 const editor: EditorState = {
     postSetting: {
@@ -25,8 +26,17 @@ export default {
 
     },
     actions: {
-        publish({ commit }, data) {
-            
+        uploadImage({}, file: File) {
+            console.log(file);
+        },
+        async publish({ commit }, { boardName, title, contents }) {
+            const contentS3Key = '';
+            // const contentS3Key = await api;
+            HgsRestApi.writePost({}, {
+                boardName,
+                title,
+                contentS3Key,
+            });
         }
     }
 };

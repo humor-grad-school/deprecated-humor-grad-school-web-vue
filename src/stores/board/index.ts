@@ -37,7 +37,6 @@ export default {
             state.currentPage = page;
         },
         setPosts(state: BoardState, posts: BoardPostState[]) {
-            console.log(posts);
             state.posts = posts;
         },
         setBoardName(state: BoardState, boardName: string) {
@@ -48,7 +47,7 @@ export default {
         async fetch({ commit }, { boardName, type, page }) {
             commit('setBoardType', type);
             commit('setCurrentPage', page);
-            commit('setBoardName', boardName)
+            commit('setBoardName', boardName);
 
             const query = `{
                 board(name: "${boardName}") {
