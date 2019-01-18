@@ -49,30 +49,47 @@ export default {
             commit('setCurrentPage', page);
             commit('setBoardName', boardName);
 
-            const query = `{
-                board(name: "${boardName}") {
+            const postQuery = `
+                id
+                title
+                thumbnailUrl
+                contentS3Key
+                writer {
                     id
-                    posts(page: 0, pageSize: 10) {
-                        id
-                        title
-                        thumbnailUrl
-                        contentS3Key
-                        writer {
-                            id
-                            username
-                            avatarUrl
-                        }
-                        createdAt
-                        isViewed
-                        views
-                        likes
-                        isLiked
-                        commentCount
-                    }
+                    username
+                    avatarUrl
                 }
-            }`;
-            const { board } = await fetchGraphQL(query);
-            commit('setPosts', board.posts);
+                createdAt
+                isViewed
+                views
+                likes
+                isLiked
+                commentCount
+            `;
+
+            let posts;
+
+            if (boardName === 'best') {
+                const query = `{
+                    bestPosts {
+                        ${postQuery}
+                    }
+                }`;
+                const { bestPosts } = await fetchGraphQL(query);
+                posts = bestPosts;
+            } else {
+                const query = `{
+                    board(name: "${boardName}") {
+                        posts(page: ${page}, pageSize: 10) {
+                            ${postQuery}
+                        }
+                    }
+                }`;
+                const { board } = await fetchGraphQL(query);
+                posts = board.posts;
+            }
+
+            commit('setPosts', posts);
         }
     }
 };
