@@ -19,6 +19,9 @@ import FooterBar from '@/views/common/footer-bar.vue';
 export default Vue.extend({
     components: {
         Toolbar, Snackbar, Modal, FooterBar
+    },
+    mounted() {
+        this.$store.dispatch('auth/tryAutoLogin');
     }
 });
 </script>

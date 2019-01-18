@@ -2,6 +2,7 @@ import { AuthState, AuthPayload } from './types';
 import { initGoogle, signOutGoogle } from '@/modules/google-auth';
 import { HgsRestApi } from '@/api/types/generated/client/ClientApis';
 import { initFacebook, loginFacebook, signOutFacebook } from '@/modules/facebook-auth';
+import { setGraphQlSessionToken } from '@/api/fetchGraphQL';
 
 const auth: AuthState = {
     authorized: false,
@@ -52,7 +53,7 @@ export default {
             } else if (provider === 'facebook') {
                 signOutFacebook();
             }
-
+            localStorage.removeItem('sessionToken');
             commit('setAuthorized', false);
         },
         initGoogleAuth({ dispatch }, payload: AuthPayload) {
@@ -79,7 +80,26 @@ export default {
                 }
             });
         },
-        async authenticate({ commit, state }, { provider, idToken, success, error }) {
+        setSessionToken({ commit, state }, { sessionToken }) {
+            HgsRestApi.setSessionToken(sessionToken);
+            setGraphQlSessionToken(sessionToken);
+            if (state.saveAuth) {
+                localStorage.setItem('sessionToken', sessionToken);
+            }
+
+            commit('setAuthorized', true);
+        },
+        tryAutoLogin({ commit, dispatch }) {
+            const sessionToken = localStorage.getItem('sessionToken');
+            if (!sessionToken) {
+                commit('setAuthorized', false);
+                return;
+            }
+            dispatch('setSessionToken', {
+                sessionToken,
+            });
+        },
+        async authenticate({ commit, dispatch }, { provider, idToken, success, error }) {
             try {
                 commit('setProvider', provider);
                 commit('setIdToken', idToken);
@@ -88,13 +108,11 @@ export default {
                     authenticationRequestData: { idToken }
                 };
                 const res = await HgsRestApi.authenticate({ origin: provider }, requestData);
-                
+
                 if (res.isSuccessful) {
-                    const sessionToken = res.data.sessionToken;
-                    HgsRestApi.setSessionToken(sessionToken);
-                    if (state.saveAuth) {
-                        localStorage.setItem('sessionToken', sessionToken);
-                    }
+                    dispatch('setSessionToken', {
+                        sessionToken: res.data.sessionToken,
+                    });
 
                     if (success) {
                         success();
